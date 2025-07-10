@@ -55,10 +55,10 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-3">
       {/* Header */}
       <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
-        <CardHeader className="text-center pb-4">
+        <CardHeader className="text-center pb-3">
           <CardTitle className="text-2xl font-bold text-gray-800">
             Medication Tracker
           </CardTitle>
@@ -70,7 +70,7 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
       {/* Legend */}
       <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
-        <CardContent className="pt-4">
+        <CardContent className="py-3">
           <div className="flex items-center justify-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500" />
@@ -90,44 +90,46 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
 
       {/* Calendar */}
       <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
-        <CardContent className="p-4">
-          <Calendar
-            mode="single"
-            selected={selectedDate}
-            onSelect={onDateSelect}
-            onMonthChange={setCurrentMonth}
-            className="w-full"
-            disabled={(date) => isAfter(date, new Date())}
-            modifiers={{
-              today: (date) => isToday(date)
-            }}
-            modifiersStyles={{
-              today: {
-                fontWeight: 'bold',
-                backgroundColor: 'hsl(var(--primary))',
-                color: 'hsl(var(--primary-foreground))'
-              }
-            }}
-            components={{
-              Day: ({ date, ...props }) => (
-                <div className="relative">
-                  <button
-                    {...props}
-                    className={`w-full h-12 flex flex-col items-center justify-center hover:bg-blue-50 rounded-lg transition-colors relative ${
-                      isAfter(date, new Date()) ? 'opacity-30 cursor-not-allowed' : ''
-                    }`}
-                    onClick={() => !isAfter(date, new Date()) && onDateSelect(date)}
-                    disabled={isAfter(date, new Date())}
-                  >
-                    <span className="text-sm font-medium">
-                      {format(date, 'd')}
-                    </span>
-                    {getDayContent(date)}
-                  </button>
-                </div>
-              )
-            }}
-          />
+        <CardContent className="p-3">
+          <div className="flex justify-center">
+            <Calendar
+              mode="single"
+              selected={selectedDate}
+              onSelect={onDateSelect}
+              onMonthChange={setCurrentMonth}
+              className="w-full max-w-sm mx-auto"
+              disabled={(date) => isAfter(date, new Date())}
+              modifiers={{
+                today: (date) => isToday(date)
+              }}
+              modifiersStyles={{
+                today: {
+                  fontWeight: 'bold',
+                  backgroundColor: 'hsl(var(--primary))',
+                  color: 'hsl(var(--primary-foreground))'
+                }
+              }}
+              components={{
+                Day: ({ date, ...props }) => (
+                  <div className="relative">
+                    <button
+                      {...props}
+                      className={`w-full h-12 flex flex-col items-center justify-center hover:bg-blue-50 rounded-lg transition-colors relative ${
+                        isAfter(date, new Date()) ? 'opacity-30 cursor-not-allowed' : ''
+                      }`}
+                      onClick={() => !isAfter(date, new Date()) && onDateSelect(date)}
+                      disabled={isAfter(date, new Date())}
+                    >
+                      <span className="text-sm font-medium">
+                        {format(date, 'd')}
+                      </span>
+                      {getDayContent(date)}
+                    </button>
+                  </div>
+                )
+              }}
+            />
+          </div>
         </CardContent>
       </Card>
     </div>
