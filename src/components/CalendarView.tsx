@@ -1,19 +1,21 @@
 
 import React, { useState } from 'react';
 import { Calendar } from '@/components/ui/calendar';
-import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
 import { format, isSameMonth, isAfter, isToday } from 'date-fns';
+import { Card, CardHeader, CardTitle, CardContent } from '@/components/ui/card';
 
 interface CalendarViewProps {
   selectedDate: Date | undefined;
   onDateSelect: (date: Date | undefined) => void;
   medicationData: Record<string, { morning?: { time: string; comment: string }; evening?: { time: string; comment: string } }>;
+  onAddToday?: () => void;
 }
 
 export const CalendarView: React.FC<CalendarViewProps> = ({
   selectedDate,
   onDateSelect,
-  medicationData
+  medicationData,
+  onAddToday
 }) => {
   const [currentMonth, setCurrentMonth] = useState(new Date());
 
@@ -55,52 +57,23 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
   };
 
   return (
-    <div className="space-y-4">
+    <div className="space-y-3">
       {/* Header */}
-      <div className="text-center py-6">
-        <h1 className="text-3xl font-bold text-gray-900 mb-2">
-          Medication Tracker
-        </h1>
-        <p className="text-gray-600">
-          Track your daily medication intake
-        </p>
-      </div>
-
-      {/* Separator Line */}
-      <div className="w-full h-px bg-gray-200 my-4" />
-
-      {/* Information Cards */}
-      <div className="grid grid-cols-1 md:grid-cols-2 gap-4 mb-6">
-        <Card className="border border-blue-100 bg-blue-50/50">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-blue-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-white text-xs font-bold">!</span>
-              </div>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Take your medication within 30 minutes after meals.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-        <Card className="border border-purple-100 bg-purple-50/50">
-          <CardContent className="p-4">
-            <div className="flex items-start gap-3">
-              <div className="w-6 h-6 rounded-full bg-purple-500 flex items-center justify-center flex-shrink-0 mt-0.5">
-                <span className="text-white text-xs">🌙</span>
-              </div>
-              <p className="text-sm text-gray-700 leading-relaxed">
-                Don't skip your evening dose for consistent results.
-              </p>
-            </div>
-          </CardContent>
-        </Card>
-      </div>
+      <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+        <CardHeader className="text-center pb-3">
+          <CardTitle className="text-2xl font-bold text-gray-800">
+            Medication Tracker
+          </CardTitle>
+          <p className="text-gray-600 text-sm">
+            Track your daily medication intake
+          </p>
+        </CardHeader>
+      </Card>
 
       {/* Legend */}
-      <Card className="border border-gray-100">
-        <CardContent className="py-4">
-          <div className="flex items-center justify-center gap-8 text-sm">
+      <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
+        <CardContent className="py-3">
+          <div className="flex items-center justify-center gap-6 text-sm">
             <div className="flex items-center gap-2">
               <div className="w-3 h-3 rounded-full bg-green-500" />
               <span className="text-gray-700 font-medium">Morning</span>
@@ -115,28 +88,24 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
             </div>
           </div>
         </CardContent>
-      </Card>
-
-      {/* Calendar */}
-      <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
-        <CardContent className="p-3">
-          <div className="flex justify-center">
+        <div className="p-3 flex justify-center">
+          <div className="origin-top" style={{ transform: 'scale(1.3)' }}>
             <Calendar
               mode="single"
               selected={selectedDate}
               onSelect={onDateSelect}
               onMonthChange={setCurrentMonth}
-              className="w-full max-w-sm mx-auto"
+              className="w-fit"
               disabled={(date) => isAfter(date, new Date())}
               modifiers={{
-                today: (date) => isToday(date)
+                today: (date) => isToday(date),
               }}
               modifiersStyles={{
                 today: {
                   fontWeight: 'bold',
                   backgroundColor: 'hsl(var(--primary))',
-                  color: 'hsl(var(--primary-foreground))'
-                }
+                  color: 'hsl(var(--primary-foreground))',
+                },
               }}
               components={{
                 Day: ({ date, ...props }) => (
@@ -149,28 +118,16 @@ export const CalendarView: React.FC<CalendarViewProps> = ({
                       onClick={() => !isAfter(date, new Date()) && onDateSelect(date)}
                       disabled={isAfter(date, new Date())}
                     >
-                      <span className="text-sm font-medium">
-                        {format(date, 'd')}
-                      </span>
+                      <span className="text-sm font-medium">{format(date, 'd')}</span>
                       {getDayContent(date)}
                     </button>
                   </div>
-                )
+                ),
               }}
             />
           </div>
-        </CardContent>
+        </div>
       </Card>
-
-      {/* Add Today's Medication Button */}
-      <div className="pt-4">
-        <button
-          onClick={() => onDateSelect(new Date())}
-          className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 px-6 rounded-xl transition-colors duration-200 shadow-lg hover:shadow-xl"
-        >
-          Add Today's Medication
-        </button>
-      </div>
     </div>
   );
 };

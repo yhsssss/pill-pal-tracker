@@ -1,5 +1,5 @@
 
-import React, { useState, useEffect } from 'react';
+import React, { useState } from 'react';
 import { Clock, MessageSquare, Save, Pill, ChevronDown, ChevronRight } from 'lucide-react';
 import { Button } from '@/components/ui/button';
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card';
@@ -26,12 +26,7 @@ export const MedicationEntry: React.FC<MedicationEntryProps> = ({
   onSave,
   colorScheme
 }) => {
-  const [isOpen, setIsOpen] = useState(!data.time);
-
-  // Sync open state with data.time
-  useEffect(() => {
-    setIsOpen(!data.time);
-  }, [data.time]);
+  const [isOpen, setIsOpen] = useState(false);
 
   const setCurrentTime = () => {
     const now = format(new Date(), 'HH:mm');
@@ -40,7 +35,7 @@ export const MedicationEntry: React.FC<MedicationEntryProps> = ({
 
   const handleSave = () => {
     onSave(period, data);
-    // No need to manually close; isOpen will sync with data.time
+    setIsOpen(false);
   };
 
   const colorClasses = {

@@ -32,6 +32,10 @@ const Index = () => {
           selectedDate={selectedDate}
           onDateSelect={handleDateSelect}
           medicationData={medicationData}
+          onAddToday={() => {
+            setSelectedDate(new Date());
+            setView('detail');
+          }}
         />
       ) : (
         <DailyDetailView
