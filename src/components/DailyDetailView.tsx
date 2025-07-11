@@ -57,28 +57,31 @@ export const DailyDetailView: React.FC<DailyDetailViewProps> = ({
   };
 
   return (
-    <div className="space-y-6">
+    <div className="space-y-4">
       {/* Header */}
-      <Card className="bg-white/90 backdrop-blur-sm border-0 shadow-lg">
-        <CardHeader>
-          <div className="flex items-center gap-3">
-            <Button
-              variant="ghost"
-              size="icon"
-              onClick={onBack}
-              className="rounded-full"
-            >
-              <ArrowLeft className="h-5 w-5" />
-            </Button>
-            <div>
-              <CardTitle className="text-xl font-bold text-gray-800">
-                Medication Log
-              </CardTitle>
-              <p className="text-gray-600 text-sm">{formattedDate}</p>
-            </div>
-          </div>
-        </CardHeader>
-      </Card>
+      <div className="flex flex-col items-center w-full bg-white/90 backdrop-blur-sm border-0">
+        {/* Medication Log Title */}
+        <h1 className="text-3xl font-extrabold text-gray-900 w-full text-center mb-2 pt-4">
+          Daily Medication Log
+        </h1>
+        {/* Back button and date row */}
+        <div className="flex items-center justify-center w-full gap-4">
+          <Button
+            variant="ghost"
+            size="icon"
+            onClick={onBack}
+            className="rounded-full w-20 h-20 mr-2"
+            aria-label="Back"
+          >
+            <ArrowLeft className="h-10 w-10" />
+          </Button>
+          <p className="text-gray-700 text-lg font-semibold flex-1 text-center">
+            {formattedDate}
+          </p>
+          {/* Empty div for symmetrical spacing */}
+          <div className="w-20 h-20 mr-2" />
+        </div>
+      </div>
 
       {/* Morning Entry */}
       <MedicationEntry

@@ -25,24 +25,46 @@ const Index = () => {
   };
 
   return (
-    <div className="min-h-screen bg-gradient-to-br from-blue-50 to-green-50 p-4">
-      <div className="max-w-md mx-auto">
-        {view === 'calendar' ? (
-          <CalendarView 
-            selectedDate={selectedDate}
-            onDateSelect={handleDateSelect}
-            medicationData={medicationData}
-          />
-        ) : (
-          <DailyDetailView
-            selectedDate={selectedDate}
-            onBack={handleBackToCalendar}
-            medicationData={medicationData}
-          />
-        )}
+    <div className="w-screen h-screen flex items-center justify-center bg-gray-100 px-4 py-8">
+      <div className="w-full max-w-[768px] min-w-[320px] h-full bg-white shadow-md p-4  overflow-auto">
+      {view === 'calendar' ? (
+        <CalendarView 
+          selectedDate={selectedDate}
+          onDateSelect={handleDateSelect}
+          medicationData={medicationData}
+        />
+      ) : (
+        <DailyDetailView
+          selectedDate={selectedDate}
+          onBack={handleBackToCalendar}
+          medicationData={medicationData}
+        />
+      )}
       </div>
     </div>
   );
+
+// return (
+//   <div className="h-screen flex flex-col items-center bg-gradient-to-br from-blue-50 to-green-50 pt-6">
+//     <div className="w-full max-w-md flex-grow">
+//       {view === 'calendar' ? (
+//         <CalendarView 
+//           selectedDate={selectedDate}
+//           onDateSelect={handleDateSelect}
+//           medicationData={medicationData}
+//         />
+//       ) : (
+//         <DailyDetailView
+//           selectedDate={selectedDate}
+//           onBack={handleBackToCalendar}
+//           medicationData={medicationData}
+//         />
+//       )}
+//     </div>
+//   </div>
+// );
+
+
 };
 
 export default Index;
